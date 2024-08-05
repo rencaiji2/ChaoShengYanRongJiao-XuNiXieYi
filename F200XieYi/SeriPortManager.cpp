@@ -16,26 +16,44 @@ void SeriPortManager::initPort()
     }
     m_devicePort.open(QSerialPort::ReadWrite);
     connect(&m_devicePort,&QSerialPort::readyRead,this,&SeriPortManager::onDeviceDataReady,Qt::UniqueConnection);
+    connect(&m_handshaketimer,&QTimer::timeout,this,&SeriPortManager::handshaketimer_slot,Qt::UniqueConnection);
+    connect(&m_presstimer,&QTimer::timeout,this,&SeriPortManager::presstimer_slot,Qt::UniqueConnection);
+    m_handshaketimer.start(1000);
+    m_presstimer.start(2000);
 }
 
 void SeriPortManager::onDeviceDataReady()
 {
-    QByteArray source = m_devicePort.readAll();
-    qDebug()<<source;
-    QByteArray writebyte;
-    if(source == QByteArray::fromHex("ea 03 eb"))
-    {
-        writebyte = QByteArray::fromHex("ea 01 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3c 01 01 00 00 00 65 19 00 03");
-        m_devicePort.write(writebyte);
-        writebyte = QByteArray::fromHex("00 8d eb");
-        m_devicePort.write(writebyte);
-    }
-    else
-    {
-        writebyte = QByteArray::fromHex("ea 02 01 eb");
-        writebyte[1] = source.at(1);
-        qDebug()<<"writebyte:"<<writebyte;
-        m_devicePort.write(writebyte);
-    }
+//    QByteArray source = m_devicePort.readAll();
+//    qDebug()<<source;
+//    QByteArray writebyte;
+//    if(source == QByteArray::fromHex("ea 03 eb"))
+//    {
+//        writebyte = QByteArray::fromHex("ea 01 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3c 01 01 00 00 00 65 19 00 03");
+//        m_devicePort.write(writebyte);
+//        writebyte = QByteArray::fromHex("00 8d eb");
+//        m_devicePort.write(writebyte);
+//    }
+//    else
+//    {
+//        writebyte = QByteArray::fromHex("ea 02 01 eb");
+//        writebyte[1] = source.at(1);
+//        qDebug()<<"writebyte:"<<writebyte;
+//        m_devicePort.write(writebyte);
+//    }
+}
 
+void SeriPortManager::handshaketimer_slot()
+{
+    QByteArray writebyte;
+    writebyte = QByteArray::fromHex("ea 01 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3c 01 01 00 00 00 65 19 00 03");
+    QByteArray writebyte2 = QByteArray::fromHex("01 06 00 00 00 00 00 01 06 00 00 00 00 00 01 00 8d eb");
+    writebyte.append(writebyte2);
+    m_devicePort.write(writebyte);
+}
+void SeriPortManager::presstimer_slot()
+{
+//    QByteArray writebyte;
+//    writebyte = QByteArray::fromHex("");
+//    m_devicePort.write(writebyte);
 }
