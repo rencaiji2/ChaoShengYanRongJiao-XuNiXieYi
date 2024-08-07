@@ -20,7 +20,7 @@ private:
     QTimer m_handshaketimer;
     QTimer m_presstimer;
 
-private slots:
+public slots:
     void onDeviceDataReady();
     void handshaketimer_slot();
     void presstimer_slot();
