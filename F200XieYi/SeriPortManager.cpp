@@ -23,8 +23,9 @@ void SeriPortManager::onDeviceDataReady()
     QByteArray source = m_devicePort.readAll();
     qDebug()<<source;
     QByteArray writebyte;
-    if(source == QByteArray::fromHex("ea 03 eb"))
+    if(source == QByteArray::fromHex("ea 10 05 ea eb"))
     {
+        qDebug()<<"Send Handshake";
         writebyte = QByteArray::fromHex("ea 01 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3c 01 01 00 00 00 65 19 00 03");
         m_devicePort.write(writebyte);
         writebyte = QByteArray::fromHex("00 8d eb");
