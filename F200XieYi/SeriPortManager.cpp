@@ -81,7 +81,7 @@ void SeriPortManager::handshaketimer_slot()
 //            m_devicePort.write(writebyte3);
 //        });
     m_devicePort.write(writebyte3);
-    writebyte3=QByteArray::fromHex("ea 01 42 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 05 00 00 00 3c 01 01 00 00 ff ff ff ff 00 00 48 01 01 06 00 00 04 79 4a e8 01 06 00 00 04 79 4a e8 cc eb");
+    writebyte3=QByteArray::fromHex("ea 01 42 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 05 00 00 00 3d 02 02 00 00 ff ff ff ff 00 00 48 01 01 06 00 00 04 79 4a e8 01 06 00 00 04 79 4a e8 cc eb");
 
 }
 void SeriPortManager::presstimer_slot()
